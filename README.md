@@ -29,3 +29,4 @@ php artisan db:seed
 ## Để xử lý mã hóa mã thông báo, hãy tạo khóa bí mật bằng cách thực hiện lệnh sau.
 
 php artisan jwt:secret
+Hoang Tu
