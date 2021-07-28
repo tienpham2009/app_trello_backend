@@ -25,3 +25,7 @@ DB_PASSWORD=
 ## Tạo ra các bảng và dữ liệu mẫu cho database
 php artisan migrate
 php artisan db:seed
+
+## Để xử lý mã hóa mã thông báo, hãy tạo khóa bí mật bằng cách thực hiện lệnh sau.
+
+php artisan jwt:secret
