@@ -8,7 +8,7 @@
 </p>
 
 ## Chạy composer và npm để cài đặt các gói cần thiết trong dự án
-composer install
+composer install <br>
 npm install
 
 ## thực hiện lệnh sau để copy ra file env:
