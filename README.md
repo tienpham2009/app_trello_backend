@@ -22,6 +22,6 @@ DB_DATABASE=laravel-5-boilerplate
 DB_USERNAME=root             
 DB_PASSWORD=
 
-##Tạo ra các bảng và dữ liệu mẫu cho database
+## Tạo ra các bảng và dữ liệu mẫu cho database
 php artisan migrate
 php artisan db:seed
