@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTableBoards extends Migration
+class CreateLabelsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,12 @@ class CreateTableBoards extends Migration
      */
     public function up()
     {
-        Schema::create('boards', function (Blueprint $table) {
-            $table->increments('id');
+        Schema::create('labels', function (Blueprint $table) {
+            $table->id();
             $table->string('title');
-            $table->integer('modifier');
+            $table->string('color')->nullable();
+            $table->unsignedBigInteger('card_id')->nullable();
+            $table->foreign('card_id')->references('id')->on('cards');
             $table->timestamps();
         });
     }
@@ -28,6 +30,6 @@ class CreateTableBoards extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('boards');
+        Schema::dropIfExists('labels');
     }
 }
