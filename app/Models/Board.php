@@ -9,6 +9,10 @@ class Board extends Model
 {
     protected $table = "boards";
     use HasFactory;
+    protected $fillable = [
+        'title',
+        'modifier'
+    ];
 
 
 

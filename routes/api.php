@@ -1,9 +1,10 @@
 <?php
 
-
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BoardController;
+use App\Http\Controllers\ListController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,12 +17,6 @@ use App\Http\Controllers\AuthController;
 |
 */
 //
-
-//Route::middleware('auth:api')->get('/user', function (Request $request) {
-//    return $request->user();
-//});
-
-
 Route::group([
     'middleware' => 'api',
     'prefix' => 'auth'
@@ -30,6 +25,14 @@ Route::group([
     Route::post('/login', [AuthController::class, 'login']);
     Route::post('/register', [AuthController::class, 'register']);
 
+});
+
+Route::prefix('list')->middleware('jwt')->group(function (){
+    Route::post('store',[ListController::class,'store'])->name('list.store');
+});
+
+Route::prefix('board')->middleware('jwt')->group(function (){
+    Route::post('store',[BoardController::class,'store'])->name('board.store');
 });
 
 
