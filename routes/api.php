@@ -23,16 +23,17 @@ Route::group([
 
 ], function ($router) {
     Route::post('/login', [AuthController::class, 'login']);
+    Route::post('/logout', [AuthController::class, 'logout']);
     Route::post('/register', [AuthController::class, 'register']);
 
 });
 
 Route::prefix('list')->middleware('jwt')->group(function (){
     Route::post('store',[ListController::class,'store'])->name('list.store');
+    Route::get('{board_id}/show',[ListController::class,'showListByBoardId'])->name('list.show');
 });
 
 Route::prefix('board')->middleware('jwt')->group(function (){
     Route::post('store',[BoardController::class,'store'])->name('board.store');
 });
-
 
