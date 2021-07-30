@@ -13,6 +13,10 @@ class Board extends Model
         'modifier'
     ];
     use HasFactory;
+    protected $fillable = [
+        'title',
+        'modifier'
+    ];
 
 
 

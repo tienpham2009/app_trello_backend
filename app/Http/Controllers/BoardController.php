@@ -39,5 +39,6 @@ class BoardController extends Controller
 
         return response()->json($user_board);
 
+
     }
 }
