@@ -3,29 +3,42 @@
 namespace App\Http\Controllers;
 
 use App\Models\Board;
+use App\Models\User;
+use App\Models\UserBoard;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
 
 class BoardController extends Controller
 {
-    public function store(Request $request)
+    function getBoardByUserID(Request $request): \Illuminate\Http\JsonResponse
     {
-        $validator = Validator::make($request->all(), [
-            'title' => 'required|string',
-            'modifier' => 'required|integer',
-        ]);
+        $userId = Auth::id();
+        $boards = Board::whereHas('users', function ($q) use ($userId) {
+            $q->whereIn('user_id', [$userId]);
+        })->get();
+        $data = [
+            "status" => "success",
+            "data" => $boards
+        ];
+        return response()->json($data);
+    }
 
-        if($validator->fails()){
-            return response()->json($validator->errors()->toJson(), 400);
-        }
+    function addBoard(Request $request): \Illuminate\Http\JsonResponse
+    {
+        $board = new Board();
+        $board->title = $request->title;
+        $board->modifier = $request->modifier;
+        $board->save();
+        $board_id = $board->id;
+        $user_id = Auth::id();
 
-        $board = Board::create(array_merge(
-            $validator->validated()
-        ));
+        $user_board = new UserBoard();
+        $user_board->user_id = $user_id;
+        $user_board->board_id = $board_id;
+        $user_board->save();
 
-        return response()->json([
-            'message' => 'Board create successfully',
-            'board' => $board
-        ], 201);
+        return response()->json($user_board);
+
+
     }
 }
