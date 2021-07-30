@@ -53,6 +53,10 @@ class AuthController extends Controller
 
         return $this->createNewToken($token);
     }
+    public function logout() {
+        auth()->logout();
+        return response()->json(['message' => 'User successfully signed out']);
+    }
     protected function createNewToken($token){
         return response()->json([
             'access_token' => $token,
