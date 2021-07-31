@@ -1,7 +1,8 @@
 <?php
 
-use App\Http\Controllers\AuthController;
+
 use App\Http\Controllers\BoardController;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ListController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -25,6 +26,11 @@ Route::group([
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::post('/register', [AuthController::class, 'register']);
     Route::post('/change-password',[AuthController::class, 'changePassword']);
+
+
+    Route::get('/boards' , [BoardController::class , 'getBoardByUserID']);
+    Route::post('/boards' , [BoardController::class , 'addBoard']);
+
 });
 
 Route::prefix('list')->middleware('jwt')->group(function (){
