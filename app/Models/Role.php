@@ -7,6 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Role extends Model
 {   protected $table = "roles";
+    protected $fillable = [
+        'id',
+        'name'
+    ];
     use HasFactory;
 
     function users(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
@@ -16,6 +20,6 @@ class Role extends Model
 
     function boards(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
-        return  $this->belongsToMany(User::class , 'user_board');
+        return  $this->belongsToMany(User::class , 'user_board')->withPivot('role_id');
     }
 }

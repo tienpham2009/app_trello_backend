@@ -13,8 +13,7 @@ class CreateUserBoardTable extends Migration
      */
     public function up()
     {
-        Schema::create('user_board', function (Blueprint $table) {
-            $table->id();
+        Schema::create('board_user', function (Blueprint $table) {
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
             $table->unsignedBigInteger('board_id')->nullable();
@@ -22,6 +21,7 @@ class CreateUserBoardTable extends Migration
             $table->unsignedBigInteger('role_id')->nullable();
             $table->foreign('role_id')->references('id')->on('roles');
             $table->timestamps();
+            $table->primary(['user_id','board_id']);
         });
     }
 
