@@ -5,7 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Models\User;
+use Exception;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
+
 
 
 class AuthController extends Controller
@@ -38,6 +41,7 @@ class AuthController extends Controller
 
 
     public function login(Request $request){
+
         $validator = Validator::make($request->all(), [
             'email' => 'required|email',
             'password' => 'required|string|min:6',
@@ -53,6 +57,10 @@ class AuthController extends Controller
 
         return $this->createNewToken($token);
     }
+    public function logout() {
+        auth()->logout();
+        return response()->json(['message' => 'User successfully signed out']);
+    }
     protected function createNewToken($token){
         return response()->json([
             'access_token' => $token,
@@ -61,4 +69,24 @@ class AuthController extends Controller
             'user' => auth()->user()
         ]);
     }
+    public function addImage(Request $request){
+
+
+        try{
+
+            if ($request->hasFile('image')) {
+                
+                $userId = \auth()->user()->id;
+                $imageName = time().'.'.$request->image->getClientOriginalExtension();
+                $request->image->move(public_path('/uploadedimages'), $imageName);
+                $user = User::find($userId);
+                $user->image = $imageName;
+                $user->save();
+                return response()->json(['message' => 'success']);
+            }
+    }
+    catch( Exception $e){
+        return $e->getMessage();
+    };
+}
 }
