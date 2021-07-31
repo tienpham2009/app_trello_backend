@@ -20,12 +20,11 @@ use Illuminate\Support\Facades\Route;
 Route::group([
     'middleware' => 'api',
     'prefix' => 'auth'
-
 ], function ($router) {
     Route::post('/login', [AuthController::class, 'login']);
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::post('/register', [AuthController::class, 'register']);
-
+    Route::post('/change-password',[AuthController::class, 'changePassword']);
 });
 
 Route::prefix('list')->middleware('jwt')->group(function (){
@@ -35,5 +34,6 @@ Route::prefix('list')->middleware('jwt')->group(function (){
 
 Route::prefix('board')->middleware('jwt')->group(function (){
     Route::post('store',[BoardController::class,'store'])->name('board.store');
+
 });
 
