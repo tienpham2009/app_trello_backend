@@ -13,11 +13,7 @@ class Board extends Model
         'modifier'
     ];
     use HasFactory;
-    protected $fillable = [
-        'title',
-        'modifier'
-    ];
-
+    
 
 
     function lists(): \Illuminate\Database\Eloquent\Relations\HasMany
