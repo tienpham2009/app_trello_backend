@@ -27,8 +27,7 @@ Route::group([
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::post('/register', [AuthController::class, 'register']);
 
-    Route::get('/boards' , [BoardController::class , 'getBoardByUserID']);
-    Route::post('/boards' , [BoardController::class , 'addBoard']);
+    
 
 });
 
@@ -39,5 +38,7 @@ Route::prefix('list')->middleware('jwt')->group(function (){
 
 Route::prefix('board')->middleware('jwt')->group(function (){
     Route::post('store',[BoardController::class,'store'])->name('board.store');
+    Route::get('/get' , [BoardController::class , 'getBoardByUserID']);
+    Route::post('/add' , [BoardController::class , 'addBoard']);
 });
 
