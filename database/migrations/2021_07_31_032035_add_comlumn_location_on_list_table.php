@@ -14,7 +14,7 @@ class AddComlumnLocationOnListTable extends Migration
     public function up()
     {
         Schema::table('lists', function (Blueprint $table) {
-            $table->unsignedInteger('location');
+            $table->unsignedInteger('location')->nullable();
         });
     }
 
