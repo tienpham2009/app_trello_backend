@@ -37,8 +37,10 @@ class BoardController extends Controller
         $user_board->board_id = $board_id;
         $user_board->save();
 
-        return response()->json($user_board);
-
+        $data = [
+            "message" => "Tạo bảng thành công"
+        ];
+        return response()->json($data);
 
     }
 }
