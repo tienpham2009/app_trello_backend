@@ -13,7 +13,7 @@ class Board extends Model
         'modifier'
     ];
     use HasFactory;
-    
+
 
 
     function lists(): \Illuminate\Database\Eloquent\Relations\HasMany
@@ -23,6 +23,6 @@ class Board extends Model
 
     function users(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
-        return $this->belongsToMany(User::class , 'user_board');
+        return $this->belongsToMany(User::class, 'user_board');
     }
 }
