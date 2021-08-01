@@ -19,7 +19,7 @@ class UserBoardController extends Controller
 
 
 
-    public function addUser(Request $request)
+    public function store(Request $request)
     {
         try{
         $board = Board::find($request->board_id);

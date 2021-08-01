@@ -41,4 +41,5 @@ Route::group([
         Route::post('/add' , [BoardController::class , 'addBoard']);
     });
     Route::post('/add_image' , [AuthController::class , 'addImage']);
-    Route::store('/add_user', [UserBoardController::class,'addUser']);
+    Route::post('/add_user' , [UserBoardController::class , 'store']);
+

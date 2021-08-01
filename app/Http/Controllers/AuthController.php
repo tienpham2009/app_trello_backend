@@ -102,8 +102,6 @@ class AuthController extends Controller
         ]);
     }
     public function addImage(Request $request){
-
-
         try{
 
             if ($request->hasFile('image')) {
