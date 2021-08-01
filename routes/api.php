@@ -26,7 +26,25 @@ Route::group([
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::post('/register', [AuthController::class, 'register']);
     Route::post('/change-password',[AuthController::class, 'changePassword']);
+
     Route::post('/boards' , [BoardController::class , 'addBoard']);
+
+});
+
+Route::prefix('list')->middleware('jwt')->group(function (){
+    Route::get('{board_id}/show',[ListController::class,'showListByBoardId'])->name('list.show');
+});
+
+Route::post('list/store',[ListController::class,'store'])->name('list.store');
+Route::post('list/move',[ListController::class,'moveList'])->name('list.move');
+Route::post('list/changeTitle',[ListController::class,'changeTitle'])->name('list.changeTitle');
+
+
+Route::prefix('board')->middleware('jwt')->group(function (){
+    Route::post('store',[BoardController::class,'store'])->name('board.store');
+    Route::get('/get' , [BoardController::class , 'getBoardByUserID']);
+    Route::post('/add' , [BoardController::class , 'addBoard']);
+
 });
     Route::prefix('list')->middleware('jwt')->group(function (){
         Route::get('{board_id}/show',[ListController::class,'showListByBoardId'])->name('list.show');
