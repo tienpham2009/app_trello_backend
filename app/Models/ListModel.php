@@ -11,7 +11,8 @@ class ListModel extends Model
     protected $table = "lists";
     protected $fillable = [
         'title',
-        'board_id'
+        'board_id',
+        'location'
     ];
 
     function board(): \Illuminate\Database\Eloquent\Relations\BelongsTo

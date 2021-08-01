@@ -19,12 +19,11 @@ class UserBoardController extends Controller
 
 
 
-    public function store(Request $request)
+    public function addUser(Request $request)
     {
         try{
         $board = Board::find($request->board_id);
-        $user_id = User::where('email',$request->email)->get('id');
-
+        $user_id =User::where('email',$request->email)->get('id');
         $board->users()->attach($user_id,['role_id' => $request->role_id]);
         return response()->json([
             'message'=>'Thêm thành viên thành công'

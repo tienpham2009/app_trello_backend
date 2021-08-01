@@ -63,7 +63,7 @@ class User extends Authenticatable implements JWTSubject
 
     function boards(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
-        return $this->belongsToMany(Board::class )->withPivot('role_id');
+        return $this->belongsToMany(Board::class , 'user_board');
     }
 
     function cards(): \Illuminate\Database\Eloquent\Relations\BelongsToMany

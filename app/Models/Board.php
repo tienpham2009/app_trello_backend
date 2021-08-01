@@ -13,10 +13,6 @@ class Board extends Model
         'modifier'
     ];
     use HasFactory;
-    protected $fillable = [
-        'title',
-        'modifier'
-    ];
 
 
 
@@ -27,6 +23,6 @@ class Board extends Model
 
     function users(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
-        return $this->belongsToMany(User::class)->withPivot('role_id');
+        return $this->belongsToMany(User::class, 'user_board');
     }
 }

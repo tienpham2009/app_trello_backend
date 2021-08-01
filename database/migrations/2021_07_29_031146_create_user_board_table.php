@@ -13,7 +13,7 @@ class CreateUserBoardTable extends Migration
      */
     public function up()
     {
-        Schema::create('board_user', function (Blueprint $table) {
+        Schema::create('user_board', function (Blueprint $table) {
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
             $table->unsignedBigInteger('board_id')->nullable();
