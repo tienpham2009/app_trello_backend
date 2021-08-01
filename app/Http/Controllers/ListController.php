@@ -67,4 +67,17 @@ class ListController extends Controller
         $list->save();
         return response()->json("abc");
     }
+
+    public function changeTitle(Request $request)
+    {
+        $id = $request->listId;
+        $list = ListModel::find($id);
+        $list->title = $request->newTitle;
+        $list->save();
+        $data = [
+            "message" => "Thay đổi tiêu đề thành công"
+        ];
+
+        return response()->json($data);
+    }
 }
