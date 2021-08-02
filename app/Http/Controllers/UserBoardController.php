@@ -23,7 +23,7 @@ class UserBoardController extends Controller
     {
         try{
         $board = Board::find($request->board_id);
-        $user_id =User::where('email',$request->email)->get('id');
+        $user_id = User::where('email',$request->email)->get('id');
         $board->users()->attach($user_id,['role_id' => $request->role_id]);
         return response()->json([
             'message'=>'Thêm thành viên thành công'
@@ -33,7 +33,6 @@ class UserBoardController extends Controller
         catch( Exception $e){
             return $e->getMessage();
         }
-
 
     }
 
