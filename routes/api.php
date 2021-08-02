@@ -49,15 +49,16 @@ Route::prefix('board')->middleware('jwt')->group(function (){
     Route::prefix('list')->middleware('jwt')->group(function (){
         Route::get('{board_id}/show',[ListController::class,'showListByBoardId'])->name('list.show');
     });
-    Route::apiResource('add_user',UserBoardController::class);
-    Route::post('list/store',[ListController::class,'store'])->name('list.store');
-    Route::post('list/move',[ListController::class,'moveList'])->name('list.move');
 
-    Route::prefix('board')->middleware('jwt')->group(function (){
-        Route::post('store',[BoardController::class,'store'])->name('board.store');
-        Route::get('/get' , [BoardController::class , 'getBoardByUserID']);
-        Route::post('/add' , [BoardController::class , 'addBoard']);
-    });
+    Route::apiResource('add_user',UserBoardController::class);
+//    Route::post('list/store',[ListController::class,'store'])->name('list.store');
+//    Route::post('list/move',[ListController::class,'moveList'])->name('list.move');
+
+//    Route::prefix('board')->middleware('jwt')->group(function (){
+//        Route::post('store',[BoardController::class,'store'])->name('board.store');
+//        Route::get('/get' , [BoardController::class , 'getBoardByUserID']);
+//        Route::post('/add' , [BoardController::class , 'addBoard']);
+//    });
     Route::post('/add_image' , [AuthController::class , 'addImage']);
     Route::post('/add_user' , [UserBoardController::class , 'store']);
 
