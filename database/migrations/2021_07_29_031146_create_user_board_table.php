@@ -13,16 +13,14 @@ class CreateUserBoardTable extends Migration
      */
     public function up()
     {
-        Schema::create('user_board', function (Blueprint $table) {
+        Schema::create('user_group', function (Blueprint $table) {
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
-            $table->unsignedBigInteger('board_id')->nullable();
-            $table->foreign('board_id')->references('id')->on('boards');
             $table->unsignedBigInteger('group_id')->nullable();
             $table->foreign('group_id')->references('id')->on('groups');
             $table->unsignedInteger('role')->nullable();
             $table->timestamps();
-            $table->primary(['user_id','board_id']);
+            $table->primary(['user_id','group_id']);
         });
     }
 
