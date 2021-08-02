@@ -41,6 +41,5 @@ class BoardController extends Controller
             "message" => "Tạo bảng thành công"
         ];
         return response()->json($data);
-
     }
 }

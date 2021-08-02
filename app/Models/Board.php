@@ -21,8 +21,8 @@ class Board extends Model
         return $this->hasMany(ListModel::class , 'board_id');
     }
 
-    function users(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    function group(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        return $this->belongsToMany(User::class, 'user_board');
+        return $this->belongsTo(Group::class, 'group_id');
     }
 }
