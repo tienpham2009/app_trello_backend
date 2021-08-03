@@ -65,4 +65,5 @@ Route::post('/add_user_board', [UserBoardController::class, 'store']);
 
 Route::prefix('group')->middleware('jwt')->group( function () {
     Route::post('add' , [GroupController::class , 'addGroup'])->name('group.add');
+    Route::get('get' , [GroupController::class , 'getGroupById'])->name('group.get');
 });

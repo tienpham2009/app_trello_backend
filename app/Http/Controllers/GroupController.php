@@ -17,8 +17,6 @@ class GroupController extends Controller
         $modifier = $request->modifierGroup;
         $userId = Auth::id();
 
-
-
         $group = new Group();
         $group->name = $name;
         $group->modifier = $modifier;
@@ -40,9 +38,9 @@ class GroupController extends Controller
 
     function addUser(Request $request){
         try{
-        $user_id = User::where('email',$request->email)->get('id');
         $group = Group::find($request->group_id);
-        $group->users()->attach($user_id);
+        $user_id = User::where('email',$request->email)->get('id');
+        $group->users()->attach($user_id, $request->group_id);
         return response()->json([
             'message'=>'Thêm thành viên thành công'
         ]);
@@ -51,5 +49,19 @@ class GroupController extends Controller
         catch( Exception $e){
             return $e->getMessage();
         }
+    }
+
+    function getGroupById()
+    {
+        $userId = Auth::id();
+        $groups = Group::whereHas('users', function ($q) use ($userId) {
+            $q->whereIn('user_id', [$userId]);
+        })->get();
+        $data = [
+            "status" => "success",
+            "data" => $groups
+        ];
+        return response()->json($data);
+
     }
 }

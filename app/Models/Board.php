@@ -10,7 +10,8 @@ class Board extends Model
     protected $table = "boards";
     protected $fillable = [
         'title',
-        'modifier'
+        'modifier',
+        'group_id'
     ];
     use HasFactory;
 
@@ -24,5 +25,10 @@ class Board extends Model
     function group(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Group::class, 'group_id');
+    }
+
+    function users(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(User::class , 'user_board');
     }
 }
