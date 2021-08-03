@@ -18,7 +18,6 @@ class CreateUserBoardTable extends Migration
             $table->foreign('user_id')->references('id')->on('users');
             $table->unsignedBigInteger('board_id')->nullable();
             $table->foreign('board_id')->references('id')->on('boards');
-            $table->unsignedInteger('role')->nullable();
             $table->timestamps();
             $table->primary(['user_id','board_id']);
         });
