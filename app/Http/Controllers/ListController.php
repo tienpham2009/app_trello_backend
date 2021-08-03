@@ -49,7 +49,7 @@ class ListController extends Controller
         ], 201);
     }
 
-    public function showListByBoardId($board_id)
+    public function showListByBoardId($board_id): \Illuminate\Http\JsonResponse
     {
         $lists = ListModel::where('board_id', $board_id)->orderBy('location')->get();
         return response()->json([
@@ -68,7 +68,7 @@ class ListController extends Controller
         return response()->json("abc");
     }
 
-    public function changeTitle(Request $request)
+    public function changeTitle(Request $request): \Illuminate\Http\JsonResponse
     {
         $id = $request->listId;
         $list = ListModel::find($id);

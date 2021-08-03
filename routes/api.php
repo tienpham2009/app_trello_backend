@@ -34,11 +34,10 @@ Route::group([
 
 Route::prefix('list')->middleware('jwt')->group(function () {
     Route::get('{board_id}/show', [ListController::class, 'showListByBoardId'])->name('list.show');
+    Route::post('/store', [ListController::class, 'store'])->name('list.store');
+    Route::post('/move', [ListController::class, 'moveList'])->name('list.move');
+    Route::post('/changeTitle', [ListController::class, 'changeTitle'])->name('list.changeTitle');
 });
-
-Route::post('list/store', [ListController::class, 'store'])->name('list.store');
-Route::post('list/move', [ListController::class, 'moveList'])->name('list.move');
-Route::post('list/changeTitle', [ListController::class, 'changeTitle'])->name('list.changeTitle');
 
 
 Route::prefix('board')->middleware('jwt')->group(function () {
@@ -51,19 +50,22 @@ Route::prefix('list')->middleware('jwt')->group(function () {
     Route::get('{board_id}/show', [ListController::class, 'showListByBoardId'])->name('list.show');
 });
 Route::apiResource('add_user', UserBoardController::class);
-Route::post('list/store', [ListController::class, 'store'])->name('list.store');
-Route::post('list/move', [ListController::class, 'moveList'])->name('list.move');
 
 Route::prefix('board')->middleware('jwt')->group(function () {
-    Route::post('store', [BoardController::class, 'store'])->name('board.store');
+    Route::post('/store', [BoardController::class, 'store'])->name('board.store');
     Route::get('/get', [BoardController::class, 'getBoardByUserID']);
     Route::post('/add', [BoardController::class, 'addBoard']);
 });
+
+
+
+
+
 Route::post('/add_image', [AuthController::class, 'addImage']);
 Route::post('/add_user_group', [GroupController::class, 'addUser']);
 Route::post('/add_user_board', [UserBoardController::class, 'store']);
 
 Route::prefix('group')->middleware('jwt')->group( function () {
     Route::post('add' , [GroupController::class , 'addGroup'])->name('group.add');
-    Route::get('get' , [GroupController::class , 'getGroupById'])->name('group.get');
+    Route::get('get' , [GroupController::class , 'getGroupAndBoard'])->name('group.get');
 });
