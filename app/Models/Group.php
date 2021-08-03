@@ -23,6 +23,6 @@ class Group extends Model
 
     function boards(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
-        return $this->hasMany(Board::class , 'board_id' );
+        return $this->hasMany(Board::class , 'group_id' );
     }
 }
