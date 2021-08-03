@@ -3,13 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Models\Board;
+use App\Models\Group;
 use App\Models\User;
 use App\Models\UserBoard;
+use App\Models\UserGroup;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class BoardController extends Controller
 {
+    protected $boards;
+
     function getBoardByUserID(Request $request): \Illuminate\Http\JsonResponse
     {
         $userId = Auth::id();
@@ -28,6 +32,7 @@ class BoardController extends Controller
         $board = new Board();
         $board->title = $request->title;
         $board->modifier = $request->modifier;
+        $board->group_id = $request->group;
         $board->save();
         $board_id = $board->id;
         $user_id = Auth::id();
@@ -41,5 +46,28 @@ class BoardController extends Controller
             "message" => "Tạo bảng thành công"
         ];
         return response()->json($data);
+    }
+
+    function getBoardByGroupId(Request $request): \Illuminate\Http\JsonResponse
+    {
+        $groupId = $request->groupId;
+        $userId = 1;
+        $groups = Group::whereHas('users', function ($q) use ($userId) {
+            $q->whereIn('user_id', [$userId]);
+        })->get();
+
+        foreach( $groups as $group)
+        {
+
+            if ($group->id == $groupId)
+            {
+                $boards = Group::find($groupId)->boards;
+                $data = [
+                    'status' => 'thanh cong' ,
+                    'data' => $boards
+                ];
+                return response()->json($data);
+            }
+        }
     }
 }

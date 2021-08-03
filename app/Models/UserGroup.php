@@ -5,15 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class UserBoard extends Model
+class UserGroup extends Model
 {
     use HasFactory;
-
-
-    protected $table = 'user_board';
-
+    protected $table = 'user_group';
     protected $fillable = [
         'user_id',
-        'board_id'
+        'group_id'
     ];
 }
