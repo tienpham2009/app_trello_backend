@@ -33,7 +33,7 @@ class GroupController extends Controller
 
     }
 
-    function getGroupById()
+    function getGroupById(): \Illuminate\Http\JsonResponse
     {
         $userId = Auth::id();
         $groups = Group::whereHas('users', function ($q) use ($userId) {
