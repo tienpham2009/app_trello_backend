@@ -15,8 +15,6 @@ class GroupController extends Controller
         $modifier = $request->modifierGroup;
         $userId = Auth::id();
 
-
-
         $group = new Group();
         $group->name = $name;
         $group->modifier = $modifier;
@@ -33,5 +31,18 @@ class GroupController extends Controller
 
         return response()->json($data);
 
+    }
+
+    function getGroupById()
+    {
+        $userId = Auth::id();
+        $groups = Group::whereHas('users', function ($q) use ($userId) {
+            $q->whereIn('user_id', [$userId]);
+        })->get();
+        $data = [
+            "status" => "success",
+            "data" => $groups
+        ];
+        return response()->json($data);
     }
 }

@@ -11,4 +11,9 @@ class UserBoard extends Model
 
 
     protected $table = 'user_board';
+
+    protected $fillable = [
+        'user_id',
+        'board_id'
+    ];
 }

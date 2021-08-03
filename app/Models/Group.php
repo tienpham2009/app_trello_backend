@@ -18,10 +18,10 @@ class Group extends Model
 
     function users(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
-        return $this->belongsToMany(Board::class , 'user_board');
+        return $this->belongsToMany(User::class , 'user_group');
     }
 
-    function boards()
+    function boards(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(Board::class , 'board_id' );
     }
