@@ -45,17 +45,7 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-
-        $validator = Validator::make($request->all(), [
-            'email' => 'required|email',
-            'password' => 'required|string|min:6',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json($validator->errors(), 422);
-        }
-
-        if (!$token = auth()->attempt($validator->validated())) {
+        if (!$token = auth()->attempt($request->all())) {
             return response()->json(['error' => 'Thông tin đăng nhập không chính xác !'], 401);
         }
 

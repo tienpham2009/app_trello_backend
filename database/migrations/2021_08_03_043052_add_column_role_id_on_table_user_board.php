@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateGroupsTable extends Migration
+class AddColumnRoleIdOnTableUserBoard extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,9 @@ class CreateGroupsTable extends Migration
      */
     public function up()
     {
-        Schema::create('groups', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->unsignedInteger('modifier')->nullable();
-            $table->timestamps();
+        Schema::table('user_board', function (Blueprint $table) {
+            $table->unsignedBigInteger('role_id')->nullable();
+            $table->foreign('role_id')->references('id')->on('roles');
         });
     }
 
@@ -28,6 +26,8 @@ class CreateGroupsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('roles');
+        Schema::table('user_board', function (Blueprint $table) {
+            //
+        });
     }
 }
