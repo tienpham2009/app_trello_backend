@@ -3,10 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Board;
+use App\Models\Group;
 use Illuminate\Http\Request;
 
 use App\Models\User;
-
+use App\Models\UserBoard;
 use Exception;
 
 class UserBoardController extends Controller
@@ -22,8 +23,9 @@ class UserBoardController extends Controller
     public function store(Request $request)
     {
         try{
-        $board = Board::find($request->board_id);
+
         $user_id = User::where('email',$request->email)->get('id');
+        $board = Board::find($request->board_id);
         $board->users()->attach($user_id,['role_id' => $request->role_id]);
         return response()->json([
             'message'=>'Thêm thành viên thành công'
