@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Auth;
 class BoardController extends Controller
 {
     protected $boards;
-    const DEFAULT_IMAGE = 4 ;
+    const DEFAULT_IMAGE = 1 ;
 
     function getBoardByUserID(Request $request): \Illuminate\Http\JsonResponse
     {

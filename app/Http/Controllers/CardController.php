@@ -102,4 +102,33 @@ class CardController extends Controller
 
         return response()->json($data);
     }
+
+    public function updateCardTitle(Request $request): \Illuminate\Http\JsonResponse
+    {
+        $card_id = $request->card_id;
+        $title = $request->title;
+
+        $card = Card::find($card_id);
+        $card->title = $title;
+        $card->save();
+        $data = [
+            'status' => 'success'
+        ];
+        return response()->json($data);
+    }
+
+    public function updateCardContent(Request $request): \Illuminate\Http\JsonResponse
+    {
+        $card_id = $request->card_id;
+        $content = $request->card_content;
+
+        $card = Card::find($card_id);
+        $card->content = $content;
+        $card->save();
+        $data = [
+            'status' => 'success'
+        ];
+
+        return response()->json($data);
+    }
 }
