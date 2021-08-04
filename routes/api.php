@@ -72,6 +72,7 @@ Route::prefix('board')->middleware('jwt')->group(function () {
 Route::prefix('card')->middleware('jwt')->group(function (){
     Route::post('store',[CardController::class,'store'])->name('card.store');
     Route::get('{id}/get-card',[CardController::class,'getCardOfListByBoardId'])->name('card.getCardOfListByBoardId');
+    Route::get('/{id}/get' , [CardController::class , 'getCardById'])->name('card.get');
 });
 
 
