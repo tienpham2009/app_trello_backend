@@ -39,10 +39,11 @@ class GroupController extends Controller
     function addUser(Request $request){
         try{
         $group = Group::find($request->group_id);
-        $user_id = User::where('email',$request->email)->get('id');
+        $user_id = User::whereIn('email',$request->email_array)->get('id');
         $group->users()->attach($user_id);
         return response()->json([
-            'message'=>'Thêm thành viên thành công'
+            // 'message'=>'Thêm thành viên thành công'
+            $request->email_array
         ]);
         }
 
