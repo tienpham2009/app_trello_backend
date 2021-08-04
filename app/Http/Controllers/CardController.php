@@ -4,9 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\Card;
 use App\Models\ListModel;
+use App\Models\UserCard;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use PhpParser\Node\Stmt\Case_;
 
 class CardController extends Controller
 {
@@ -29,7 +32,6 @@ class CardController extends Controller
         $card->title = $request->title;
         $card->list_id = $request->list_id;
 
-
         $this->lastRecord = DB::table('cards')
             ->select('location')
             ->where('list_id', '=', $card->list_id)
@@ -41,6 +43,12 @@ class CardController extends Controller
             $card->location = $this->lastRecord->location + self::INCREMENT_LOCATION;
         }
         $card->save();
+
+        $user_id = Auth::id();
+        $user_card = new UserCard();
+        $user_card->user_id = $user_id;
+        $user_card->card_id = $card->id;
+        $user_card->save();
 
         return response()->json([
             'message' => 'Thẻ đã được tạo mới thành công !',
@@ -72,23 +80,26 @@ class CardController extends Controller
         ]);
     }
 
-    public function editNot($id , Request $request )
+    public function getCardById(Request $request): \Illuminate\Http\JsonResponse
     {
+        $card_id = $request->id;
+        $card = Card::find($card_id);
+        $labels = DB::table('labels')
+                 ->join('cards' , 'cards.id'  , '=' , 'labels.card_id')
+                 ->where('cards.id' , $card_id)
+                 ->get();
+        $users = DB::table('cards')
+                 ->select('users.id' , 'users.name')
+                 ->join('user_card' , 'cards.id' , '=' , 'user_card.card_id')
+                 ->join('users' , 'users.id' , '=' , 'user_card.user_id' )
+                 ->where('cards.id' , $card_id)
+                 ->get();
+        $data = [
+            'card' => $card,
+            'labels' => $labels,
+            'users' => $users
+        ];
 
-    $content = Card::find($request->id)
-        ->get('content');
-        return response()->json([
-        ]);
+        return response()->json($data);
     }
-
-
-//    public function title($id , Request $request )
-//    {
-//
-//        $title = Card::find($request->id)
-//            ->get('title');
-//        return response()->json([
-//        ]);
-//    }
-
 }

@@ -11,7 +11,7 @@ use function Symfony\Component\String\s;
 
 class ListController extends Controller
 {
-    const FIST_LOCATION = 0;
+    const FIRST_LOCATION = 0;
     protected $lastRecord;
     const INCREMENT_LOCATION = 1;
 
@@ -37,7 +37,7 @@ class ListController extends Controller
             ->latest('location')->first();
 
         if ($this->lastRecord == null) {
-            $list->location = self::FIST_LOCATION;
+            $list->location = self::FIRST_LOCATION;
         } else {
             $list->location = $this->lastRecord->location + self::INCREMENT_LOCATION;
         }
@@ -52,8 +52,13 @@ class ListController extends Controller
     public function showListByBoardId($board_id): \Illuminate\Http\JsonResponse
     {
         $lists = ListModel::where('board_id', $board_id)->orderBy('location')->get();
+        $board = DB::table('boards')
+                 ->join('images' , 'images.id' , '=' , 'boards.image_id')
+                 ->where('boards.id' , $board_id)
+                 ->get();
         return response()->json([
-            'list' => $lists
+            'list' => $lists,
+            'board' => $board[0]
         ]);
     }
 
