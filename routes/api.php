@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CardController;
 use App\Http\Controllers\GroupController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
@@ -56,15 +57,19 @@ Route::prefix('board')->middleware('jwt')->group(function () {
     Route::get('/get', [BoardController::class, 'getBoardByUserID']);
     Route::post('/add', [BoardController::class, 'addBoard']);
 });
-
-
-
-
-
 Route::post('/add_image', [AuthController::class, 'addImage']);
 Route::post('/add_user_group', [GroupController::class, 'addUser']);
 Route::post('/add_user_board', [UserBoardController::class, 'store']);
-
+Route::post('/add_user', [UserBoardController::class, 'store']);
+Route::prefix('board')->middleware('jwt')->group(function () {
+    Route::post('/store', [BoardController::class, 'store'])->name('board.store');
+    Route::get('/get', [BoardController::class, 'getBoardByUserID']);
+    Route::post('/add', [BoardController::class, 'addBoard']);
+});
+Route::prefix('card')->middleware('jwt')->group(function (){
+    Route::post('store',[CardController::class,'store'])->name('card.store');
+    Route::get('{id}/get-card',[CardController::class,'getCardOfListByBoardId'])->name('card.getCardOfListByBoardId');
+});
 Route::prefix('group')->middleware('jwt')->group( function () {
     Route::post('add' , [GroupController::class , 'addGroup'])->name('group.add');
     Route::get('get' , [GroupController::class , 'getGroupAndBoard'])->name('group.get');
