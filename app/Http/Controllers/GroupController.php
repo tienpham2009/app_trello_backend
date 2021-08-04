@@ -47,6 +47,7 @@ class GroupController extends Controller
                   ->join('user_group' , 'users.id' , '=' , 'user_group.user_id')
                   ->join('groups' , 'groups.id' , '=' , 'user_group.group_id')
                   ->where('users.id' , $userId)->get();
+
         foreach ($groups as $key => $group){
             $boards = DB::table('boards')
                       ->select('boards.id' , 'boards.title' , 'boards.modifier' , 'boards.group_id')
@@ -60,6 +61,7 @@ class GroupController extends Controller
             'groups' => $groups,
             'dataBoards' => $dataBoards
         ];
+
         return response()->json($data);
     }
 }
