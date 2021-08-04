@@ -85,3 +85,6 @@ Route::prefix('group')->middleware('jwt')->group( function () {
     Route::post('add' , [GroupController::class , 'addGroup'])->name('group.add');
     Route::get('get' , [GroupController::class , 'getGroupAndBoard'])->name('group.get');
 });
+////
+Route::get('content_update',[CardController::class,'editNot']);
+//Route::get('{id}/title_update',[CardController::class,'title']);

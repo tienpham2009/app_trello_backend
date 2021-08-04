@@ -71,4 +71,24 @@ class CardController extends Controller
            'cards' => $dataCard
         ]);
     }
+
+    public function editNot($id , Request $request )
+    {
+
+    $content = Card::find($request->id)
+        ->get('content');
+        return response()->json([
+        ]);
+    }
+
+
+//    public function title($id , Request $request )
+//    {
+//
+//        $title = Card::find($request->id)
+//            ->get('title');
+//        return response()->json([
+//        ]);
+//    }
+
 }
