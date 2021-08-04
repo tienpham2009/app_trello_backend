@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Auth;
 class BoardController extends Controller
 {
     protected $boards;
+    const DEFAULT_IMAGE = 4 ;
 
     function getBoardByUserID(Request $request): \Illuminate\Http\JsonResponse
     {
@@ -33,6 +34,12 @@ class BoardController extends Controller
         $board->title = $request->title;
         $board->modifier = $request->modifier;
         $board->group_id = $request->group;
+        if ($request->image == null)
+        {
+            $board->image_id = self::DEFAULT_IMAGE;
+        } else {
+            $board->image_id = $request->image;
+        }
         $board->save();
         $board_id = $board->id;
         $user_id = Auth::id();

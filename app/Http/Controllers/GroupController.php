@@ -71,16 +71,19 @@ class GroupController extends Controller
 
         foreach ($groups as $key => $group){
             $boards = DB::table('boards')
-                      ->select('boards.id' , 'boards.title' , 'boards.modifier' , 'boards.group_id')
+                      ->select('boards.id' , 'boards.title' , 'boards.modifier' , 'boards.group_id' , 'boards.image_id' , 'images.name')
+                      ->join('images' , 'images.id' , '=' , 'boards.image_id')
                       ->join('groups' , 'groups.id' , '=' , 'boards.group_id')
                       ->where('group_id'  , $group->id)
                       ->get();
             $dataBoards[$key] = $boards;
         }
+        $images = DB::table('images')->get();
         $data = [
             'status' => 'thanh cong',
             'groups' => $groups,
-            'dataBoards' => $dataBoards
+            'dataBoards' => $dataBoards,
+            'images' => $images
         ];
 
         return response()->json($data);
