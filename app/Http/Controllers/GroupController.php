@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Board;
 use App\Models\Group;
+use App\Models\User;
+use Exception;
 use App\Models\UserGroup;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -34,10 +36,29 @@ class GroupController extends Controller
         return response()->json($data);
 
     }
+    function addUser(Request $request){
+        try{
+        $group = Group::find($request->group_id);
+        $user_id = User::whereIn('email',$request->email_array)->get('id');
+        $group->users()->attach($user_id);
+        return response()->json([
+            // 'message'=>'Thêm thành viên thành công'
+            $request->email_array
+        ]);
+        }
+
+        catch( Exception $e){
+            return $e->getMessage();
+        }
+    }
+
+    function getGroupById(){}
+
 
 
 
     function getGroupAndBoard(): \Illuminate\Http\JsonResponse
+
     {
         $userId = Auth::id();
 
@@ -50,18 +71,22 @@ class GroupController extends Controller
 
         foreach ($groups as $key => $group){
             $boards = DB::table('boards')
-                      ->select('boards.id' , 'boards.title' , 'boards.modifier' , 'boards.group_id')
+                      ->select('boards.id' , 'boards.title' , 'boards.modifier' , 'boards.group_id' , 'boards.image_id' , 'images.name')
+                      ->join('images' , 'images.id' , '=' , 'boards.image_id')
                       ->join('groups' , 'groups.id' , '=' , 'boards.group_id')
                       ->where('group_id'  , $group->id)
                       ->get();
             $dataBoards[$key] = $boards;
         }
+        $images = DB::table('images')->get();
         $data = [
             'status' => 'thanh cong',
             'groups' => $groups,
-            'dataBoards' => $dataBoards
+            'dataBoards' => $dataBoards,
+            'images' => $images
         ];
 
         return response()->json($data);
+
     }
 }

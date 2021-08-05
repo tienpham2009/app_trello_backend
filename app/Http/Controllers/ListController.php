@@ -11,7 +11,7 @@ use function Symfony\Component\String\s;
 
 class ListController extends Controller
 {
-    const FIST_LOCATION = 0;
+    const FIRST_LOCATION = 0;
     protected $lastRecord;
     const INCREMENT_LOCATION = 1;
 
@@ -37,7 +37,7 @@ class ListController extends Controller
             ->latest('location')->first();
 
         if ($this->lastRecord == null) {
-            $list->location = self::FIST_LOCATION;
+            $list->location = self::FIRST_LOCATION;
         } else {
             $list->location = $this->lastRecord->location + self::INCREMENT_LOCATION;
         }
