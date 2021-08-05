@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Card;
+use App\Models\Comment;
 use App\Models\ListModel;
 use App\Models\UserCard;
 use Illuminate\Http\Request;
@@ -94,11 +95,19 @@ class CardController extends Controller
                  ->join('users' , 'users.id' , '=' , 'user_card.user_id' )
                  ->where('cards.id' , $card_id)
                  ->get();
+        $comments = DB::table('comments')
+                   ->select('comments.id' , 'comments.content' , 'comments.user_id' , 'comments.card_id' , 'users.name')
+                   ->join('users' , 'users.id' , '=' , 'comments.user_id')
+                   ->join('cards' , 'cards.id' , '=' , 'comments.card_id' )
+                   ->where('comments.card_id' , $card_id)
+                   ->get();
         $data = [
             'card' => $card,
             'labels' => $labels,
-            'users' => $users
+            'users' => $users ,
+            'comments' => $comments
         ];
+
 
         return response()->json($data);
     }
@@ -128,7 +137,30 @@ class CardController extends Controller
         $data = [
             'status' => 'success'
         ];
-
         return response()->json($data);
     }
+
+    public function addComment(Request $request): \Illuminate\Http\JsonResponse
+    {
+        $data = [
+            'status' => ""
+        ];
+        if ($request->comment != null){
+            $commentContent = $request->comment;
+            $card_id = $request->card_id;
+            $user_id = Auth::id();
+            $comment = new Comment();
+            $comment->content = $commentContent;
+            $comment->card_id = $card_id;
+            $comment->user_id = $user_id;
+            $comment->save();
+
+            $data["status"] = "them comment thanh cong";
+            return response()->json($data);
+        }
+        $data["status"] = "khong co comment";
+        return response()->json($data);
+    }
+
+
 }

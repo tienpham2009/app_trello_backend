@@ -71,9 +71,12 @@ Route::prefix('card')->middleware('jwt')->group(function (){
     Route::get('{id}/get-card',[CardController::class,'getCardOfListByBoardId'])->name('card.getCardOfListByBoardId');
     Route::get('/{id}/get' , [CardController::class , 'getCardById'])->name('card.get');
     Route::post('/updateContent' , [CardController::class , 'updateCardTitle']);
+    Route::post('/updateCardContent' , [CardController::class , 'updateCardContent']);
+    Route::post('/addComment' , [CardController::class , 'addComment']);
 
 });
-Route::post('card/updateCardContent' , [CardController::class , 'updateCardContent']);
+
+
 Route::prefix('group')->middleware('jwt')->group( function () {
     Route::post('add' , [GroupController::class , 'addGroup'])->name('group.add');
     Route::get('get' , [GroupController::class , 'getGroupAndBoard'])->name('group.get');
