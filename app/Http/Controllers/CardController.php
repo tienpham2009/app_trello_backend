@@ -80,27 +80,10 @@ class CardController extends Controller
         ]);
     }
 
-    public function getCardById(Request $request): \Illuminate\Http\JsonResponse
+    public function getCardById($cardId): \Illuminate\Http\JsonResponse
     {
-        $card_id = $request->id;
-        $card = Card::find($card_id);
-        $labels = DB::table('labels')
-                 ->join('cards' , 'cards.id'  , '=' , 'labels.card_id')
-                 ->where('cards.id' , $card_id)
-                 ->get();
-        $users = DB::table('cards')
-                 ->select('users.id' , 'users.name')
-                 ->join('user_card' , 'cards.id' , '=' , 'user_card.card_id')
-                 ->join('users' , 'users.id' , '=' , 'user_card.user_id' )
-                 ->where('cards.id' , $card_id)
-                 ->get();
-        $data = [
-            'card' => $card,
-            'labels' => $labels,
-            'users' => $users
-        ];
-
-        return response()->json($data);
+        $card = Card::where('id',$cardId);
+        return response()->json($card);
     }
 
     public function updateCardTitle(Request $request): \Illuminate\Http\JsonResponse
