@@ -28,7 +28,7 @@ Route::group([
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::post('/register', [AuthController::class, 'register']);
     Route::post('/change-password', [AuthController::class, 'changePassword']);
-
+    Route::post('/add_image', [AuthController::class, 'addImage']);
     Route::post('/boards', [BoardController::class, 'addBoard']);
 
 });
@@ -38,6 +38,8 @@ Route::prefix('list')->middleware('jwt')->group(function () {
     Route::post('/store', [ListController::class, 'store'])->name('list.store');
     Route::post('/move', [ListController::class, 'moveList'])->name('list.move');
     Route::post('/changeTitle', [ListController::class, 'changeTitle'])->name('list.changeTitle');
+    Route::get('{board_id}/show', [ListController::class, 'showListByBoardId'])->name('list.show');
+
 });
 
 
@@ -47,9 +49,7 @@ Route::prefix('board')->middleware('jwt')->group(function () {
     Route::post('/add', [BoardController::class, 'addBoard']);
 
 });
-Route::prefix('list')->middleware('jwt')->group(function () {
-    Route::get('{board_id}/show', [ListController::class, 'showListByBoardId'])->name('list.show');
-});
+
 Route::apiResource('add_user', UserBoardController::class);
 
 Route::prefix('board')->middleware('jwt')->group(function () {
@@ -57,7 +57,6 @@ Route::prefix('board')->middleware('jwt')->group(function () {
     Route::get('/get', [BoardController::class, 'getBoardByUserID']);
     Route::post('/add', [BoardController::class, 'addBoard']);
 });
-Route::post('/add_image', [AuthController::class, 'addImage']);
 Route::post('/add_user_group', [GroupController::class, 'addUser']);
 Route::post('/add_user_board', [UserBoardController::class, 'store']);
 Route::post('/add_user', [UserBoardController::class, 'store']);
@@ -70,8 +69,17 @@ Route::prefix('board')->middleware('jwt')->group(function () {
 Route::prefix('card')->middleware('jwt')->group(function (){
     Route::post('store',[CardController::class,'store'])->name('card.store');
     Route::get('{id}/get-card',[CardController::class,'getCardOfListByBoardId'])->name('card.getCardOfListByBoardId');
+    Route::get('/{id}/get' , [CardController::class , 'getCardById'])->name('card.get');
+    Route::post('/update-card' , [CardController::class , 'updateCard'])->name('card.update');
+    Route::post('/addComment' , [CardController::class , 'addComment']);
+
 });
+
+
 Route::prefix('group')->middleware('jwt')->group( function () {
     Route::post('add' , [GroupController::class , 'addGroup'])->name('group.add');
     Route::get('get' , [GroupController::class , 'getGroupAndBoard'])->name('group.get');
+});
+Route::prefix('card')->middleware('jwt')->group(function (){
+    Route::post('move',[CardController::class,'moveCard'])->name('card.move');
 });

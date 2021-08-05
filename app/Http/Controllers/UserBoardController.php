@@ -20,25 +20,20 @@ class UserBoardController extends Controller
     }
 
 
-
     public function store(Request $request)
     {
-        try{
-
-        $user_id = User::where('email',$request->email)->get('id');
-        $board = Board::find($request->board_id);
-        $board->users()->attach($user_id,['role_id' => $request->role_id]);
-        return response()->json([
-            'message'=>'Thêm thành viên thành công'
-        ]);
-        }
-
-        catch( Exception $e){
+        try {
+            $user_id = User::where('email', $request->email)->get('id');
+            $board = Board::find($request->board_id);
+            $board->users()->attach($user_id, ['role_id' => $request->role_id]);
+            return response()->json([
+                'message' => 'Thêm thành viên thành công'
+            ]);
+        } catch (Exception $e) {
             return $e->getMessage();
         }
 
     }
-
 
 
     public function create(Request $request)
@@ -49,44 +44,20 @@ class UserBoardController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function getAll($id)
     {
         $userId = UserBoard::where('board_id', $id)->get('user_id');
         $user = User::find($userId);
-        $email = $user->email;
-
-
-
-
-
-
-        return response()->json($email);
+        return response()->json($user);
 
     }
-
-    //     $user_ids =[];
-    //     $user_ids = $userBoard->get('user_id');
-
-
-    //     foreach ($user_ids as $key => $user_id){
-    //        $emails = User::where('user_id', $user_id)->get('email');
-    //     }
-
-    //     // $user_email = User::whereIn('id', $user_id);
-    //     // $role = Role::whereIn('id',$role_id);
-
-
-
-
-
-
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -97,8 +68,8 @@ class UserBoardController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -109,7 +80,7 @@ class UserBoardController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)

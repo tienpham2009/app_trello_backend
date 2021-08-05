@@ -22,6 +22,6 @@ class ListModel extends Model
 
     function cards(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
-        return $this->hasMany(Card::class , 'card_id');
+        return $this->hasMany(Card::class , 'list_id')->orderBy('location');
     }
 }

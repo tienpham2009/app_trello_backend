@@ -3,10 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\Card;
+use App\Models\Comment;
 use App\Models\ListModel;
+use App\Models\UserCard;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use PhpParser\Node\Stmt\Case_;
 
 class CardController extends Controller
 {
@@ -29,7 +33,6 @@ class CardController extends Controller
         $card->title = $request->title;
         $card->list_id = $request->list_id;
 
-
         $this->lastRecord = DB::table('cards')
             ->select('location')
             ->where('list_id', '=', $card->list_id)
@@ -42,33 +45,100 @@ class CardController extends Controller
         }
         $card->save();
 
+        $user_id = Auth::id();
+        $user_card = new UserCard();
+        $user_card->user_id = $user_id;
+        $user_card->card_id = $card->id;
+        $user_card->save();
+
         return response()->json([
             'message' => 'Thẻ đã được tạo mới thành công !',
             'card' => $card
         ], 201);
     }
 
-    public function getCardOfListByBoardId($board_id)
+    public function moveCard(Request $request)
     {
-        $lists = DB::table('lists')
-            ->select('lists.id','lists.title')
-            ->join('boards','boards.id','=','lists.board_id')
-            ->where('board_id',$board_id)
-            ->get();
-        $dataCard[] = [];
-        $list = [];
-        //lay card trong list 
-        foreach ($lists as $key => $list){
-            $cards = DB::table('cards')->select('cards.id','cards.title','cards.content','cards.list_id','cards.location')
-                    ->join('lists','cards.list_id','=','lists.id')
-                    ->where('list_id',$list->id)
-                    ->get();
-            $dataCard[$list->id] = $cards;
-
+        $data = $request->all();
+        foreach ($data as $key => $item) {
+            $card = Card::find($item['id']);
+            $card->location = $key;
+            $card->list_id = $item['list_id'];
+            $card->save();
         }
+        return response()->json($data);
+    }
+
+    public function getCardById(Request $request): \Illuminate\Http\JsonResponse
+    {
+        $card_id = $request->id;
+        $card = Card::find($card_id);
+        $labels = DB::table('labels')
+            ->join('cards', 'cards.id', '=', 'labels.card_id')
+            ->where('cards.id', $card_id)
+            ->get();
+        $users = DB::table('cards')
+            ->select('users.id', 'users.name')
+            ->join('user_card', 'cards.id', '=', 'user_card.card_id')
+            ->join('users', 'users.id', '=', 'user_card.user_id')
+            ->where('cards.id', $card_id)
+            ->get();
+        $comments = DB::table('comments')
+            ->select('comments.id', 'comments.content', 'comments.user_id', 'comments.card_id', 'users.name')
+            ->join('users', 'users.id', '=', 'comments.user_id')
+            ->join('cards', 'cards.id', '=', 'comments.card_id')
+            ->where('comments.card_id', $card_id)
+            ->get();
+
+        $data = [
+            'card' => $card,
+            'labels' => $labels,
+            'users' => $users,
+            'comments' => $comments
+        ];
+
+
+        return response()->json($data);
+    }
+
+    public function updateCard(Request $request)
+    {
+        $new_card = $request->all();
+        if ($new_card['title'] === null) {
+            return response()->json([
+                'err' => 'Không được để rỗng !'
+            ]);
+        }
+        $card = Card::find($new_card['id']);
+        $card->title = $new_card['title'];
+        $card->content = $new_card['content'];
+        $card->save();
         return response()->json([
-           'lists' => $lists,
-           'cards' => $dataCard
+            'card' => $card,
+            'status' => 'Cập nhật thẻ thành công !'
         ]);
     }
+    public function addComment(Request $request): \Illuminate\Http\JsonResponse
+    {
+        $data = [
+            'status' => ""
+        ];
+        if ($request->comment != null) {
+            $commentContent = $request->comment;
+            $card_id = $request->card_id;
+            $user_id = Auth::id();
+            $comment = new Comment();
+            $comment->content = $commentContent;
+            $comment->card_id = $card_id;
+            $comment->user_id = $user_id;
+            $comment->save();
+
+            $data["status"] = "them comment thanh cong";
+            return response()->json($data);
+        }
+        $data["status"] = "khong co comment";
+        return response()->json($data);
+    }
+
+
 }
