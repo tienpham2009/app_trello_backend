@@ -105,7 +105,7 @@ class AuthController extends Controller
                 $user->save();
                 return response()->json([
                 'user' => $user
-                ]);;
+                ]);
             }
     }
     catch( Exception $e){
