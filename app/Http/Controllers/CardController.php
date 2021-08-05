@@ -57,7 +57,7 @@ class CardController extends Controller
             ->get();
         $dataCard[] = [];
         $list = [];
-        //lay card trong list
+        //lay card trong list 
         foreach ($lists as $key => $list){
             $cards = DB::table('cards')->select('cards.id','cards.title','cards.content','cards.list_id','cards.location')
                     ->join('lists','cards.list_id','=','lists.id')

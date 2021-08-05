@@ -3,10 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Board;
-use App\Models\Group;
+use App\Models\Role;
 use Illuminate\Http\Request;
 
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 use App\Models\UserBoard;
 use Exception;
 
@@ -51,10 +52,36 @@ class UserBoardController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function getAll($id)
     {
-        //
+        $userId = UserBoard::where('board_id', $id)->get('user_id');
+        $user = User::find($userId);
+        $email = $user->email;
+
+
+
+
+
+
+        return response()->json($email);
+
     }
+
+    //     $user_ids =[];
+    //     $user_ids = $userBoard->get('user_id');
+
+
+    //     foreach ($user_ids as $key => $user_id){
+    //        $emails = User::where('user_id', $user_id)->get('email');
+    //     }
+
+    //     // $user_email = User::whereIn('id', $user_id);
+    //     // $role = Role::whereIn('id',$role_id);
+
+
+
+
+
 
     /**
      * Show the form for editing the specified resource.

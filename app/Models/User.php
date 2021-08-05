@@ -80,4 +80,13 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->belongsToMany(Group::class, 'user_group');
     }
+    function checkPermissionAccess(){
+        // <!-- $role =
+        // return -->
+
+
+
+
+
+    }
 }
