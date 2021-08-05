@@ -63,14 +63,12 @@ class BoardController extends Controller
             $q->whereIn('user_id', [$userId]);
         })->get();
 
-        foreach( $groups as $group)
-        {
+        foreach ($groups as $group) {
 
-            if ($group->id == $groupId)
-            {
+            if ($group->id == $groupId) {
                 $boards = Group::find($groupId)->boards;
                 $data = [
-                    'status' => 'thanh cong' ,
+                    'status' => 'thanh cong',
                     'data' => $boards
                 ];
                 return response()->json($data);

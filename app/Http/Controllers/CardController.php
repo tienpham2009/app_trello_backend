@@ -57,28 +57,16 @@ class CardController extends Controller
         ], 201);
     }
 
-    public function getCardOfListByBoardId($board_id)
+    public function moveCard(Request $request)
     {
-        $lists = DB::table('lists')
-            ->select('lists.id','lists.title')
-            ->join('boards','boards.id','=','lists.board_id')
-            ->where('board_id',$board_id)
-            ->get();
-        $dataCard[] = [];
-        $list = [];
-        //lay card trong list
-        foreach ($lists as $key => $list){
-            $cards = DB::table('cards')->select('cards.id','cards.title','cards.content','cards.list_id','cards.location')
-                    ->join('lists','cards.list_id','=','lists.id')
-                    ->where('list_id',$list->id)
-                    ->get();
-            $dataCard[$list->id] = $cards;
-
+        $data = $request->all();
+        foreach ($data as $key => $item){
+            $card = Card::find($item['id']);
+            $card->location = $key;
+            $card->list_id= $item['list_id'];
+            $card->save();
         }
-        return response()->json([
-           'lists' => $lists,
-           'cards' => $dataCard
-        ]);
+        return response()->json($data);
     }
 
     public function getCardById(Request $request): \Illuminate\Http\JsonResponse
