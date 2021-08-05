@@ -78,6 +78,7 @@ Route::prefix('card')->middleware('jwt')->group(function (){
 Route::prefix('group')->middleware('jwt')->group( function () {
     Route::post('add' , [GroupController::class , 'addGroup'])->name('group.add');
     Route::get('get' , [GroupController::class , 'getGroupAndBoard'])->name('group.get');
+    Route::get('{group_id}/getMember' , [GroupController::class , 'getMembers']);
 });
 Route::prefix('card')->middleware('jwt')->group(function (){
     Route::post('move',[CardController::class,'moveCard'])->name('card.move');

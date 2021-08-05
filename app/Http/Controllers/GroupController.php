@@ -52,11 +52,6 @@ class GroupController extends Controller
         }
     }
 
-    function getGroupById(){}
-
-
-
-
     function getGroupAndBoard(): \Illuminate\Http\JsonResponse
 
     {
