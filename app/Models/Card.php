@@ -12,6 +12,7 @@ class Card extends Model
         'title',
         'content',
         'list_id',
+        'location'
     ];
     use HasFactory;
 
