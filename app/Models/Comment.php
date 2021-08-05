@@ -7,9 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class Comment extends Model
 {
-
-    protected $table = "comments";
     use HasFactory;
+    protected $table = "comments";
+    protected $fillable = [
+        'content' ,
+        'user_id' ,
+        'card_id'
+    ];
+
 
     function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {

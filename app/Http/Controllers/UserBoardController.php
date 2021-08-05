@@ -19,25 +19,20 @@ class UserBoardController extends Controller
     }
 
 
-
     public function store(Request $request)
     {
-        try{
-
-        $user_id = User::where('email',$request->email)->get('id');
-        $board = Board::find($request->board_id);
-        $board->users()->attach($user_id,['role_id' => $request->role_id]);
-        return response()->json([
-            'message'=>'Thêm thành viên thành công'
-        ]);
-        }
-
-        catch( Exception $e){
+        try {
+            $user_id = User::where('email', $request->email)->get('id');
+            $board = Board::find($request->board_id);
+            $board->users()->attach($user_id, ['role_id' => $request->role_id]);
+            return response()->json([
+                'message' => 'Thêm thành viên thành công'
+            ]);
+        } catch (Exception $e) {
             return $e->getMessage();
         }
 
     }
-
 
 
     public function create(Request $request)
@@ -48,7 +43,7 @@ class UserBoardController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -59,7 +54,7 @@ class UserBoardController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -70,8 +65,8 @@ class UserBoardController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -82,7 +77,7 @@ class UserBoardController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
