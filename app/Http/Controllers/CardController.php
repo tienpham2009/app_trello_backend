@@ -118,6 +118,7 @@ class CardController extends Controller
             'status' => 'Cập nhật thẻ thành công !'
         ]);
     }
+    
     public function addComment(Request $request): \Illuminate\Http\JsonResponse
     {
         $data = [
