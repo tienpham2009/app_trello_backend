@@ -78,4 +78,12 @@ class BoardController extends Controller
             }
         }
     }
+
+    public function getBoard(Request $request): \Illuminate\Http\JsonResponse
+    {
+         $board_id = $request->board_id;
+         $board = Board::find($board_id);
+
+         return response()->json($board);
+    }
 }

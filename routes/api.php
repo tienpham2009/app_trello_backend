@@ -50,6 +50,7 @@ Route::prefix('board')->middleware('jwt')->group(function () {
     Route::get('/get', [BoardController::class, 'getBoardByUserID']);
     Route::post('/add', [BoardController::class, 'addBoard']);
     Route::get('{board_id}/getRole', [UserBoardController::class, 'getRole']);
+    Route::get('{board_id}/get' , [BoardController::class , 'getBoard']);
 });
 Route::post('/add_user_group', [GroupController::class, 'addUser']);
 Route::post('/add_user_board', [UserBoardController::class, 'store']);
