@@ -71,7 +71,7 @@ class BoardController extends Controller
             if ($group->id == $groupId) {
                 $boards = Group::find($groupId)->boards;
                 $data = [
-                    'status' => 'thanh cong',
+                    'status' => 'Thành công',
                     'data' => $boards
                 ];
                 return response()->json($data);

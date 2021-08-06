@@ -134,10 +134,10 @@ class CardController extends Controller
             $comment->user_id = $user_id;
             $comment->save();
 
-            $data["status"] = "them comment thanh cong";
+            $data["status"] = "Thêm comment thành công";
             return response()->json($data);
         }
-        $data["status"] = "khong co comment";
+        $data["status"] = "Không có comment";
         return response()->json($data);
     }
 

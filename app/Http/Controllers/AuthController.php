@@ -38,7 +38,7 @@ class AuthController extends Controller
         ));
 
         return response()->json([
-            'message' => 'User successfully registered',
+            'message' => 'Người dùng đã đăng ký thành công',
             'user' => $user
         ], 201);
     }
@@ -55,7 +55,7 @@ class AuthController extends Controller
     public function logout()
     {
         auth()->logout();
-        return response()->json(['message' => 'User successfully signed out']);
+        return response()->json(['message' => 'Người dùng đã đăng xuất thành công']);
     }
 
     public function changePassword(Request $request)
@@ -76,10 +76,10 @@ class AuthController extends Controller
                 ['password' => bcrypt($request->new_password)]
             );
             return response()->json([
-                'message' => 'Change password successfully !',
+                'message' => 'Thay đổi mật khẩu thành công !',
             ], 201);
         }
-        return response()->json('Old password wrong!!', 400);
+        return response()->json('Mật khẩu cũ sai!!', 400);
 
     }
 

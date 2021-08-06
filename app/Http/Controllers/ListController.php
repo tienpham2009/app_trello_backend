@@ -44,7 +44,7 @@ class ListController extends Controller
         $list->save();
 
         return response()->json([
-            'message' => 'List create successfully',
+            'message' => 'Tạo danh sách thành công',
             'list' => $list
         ], 201);
     }

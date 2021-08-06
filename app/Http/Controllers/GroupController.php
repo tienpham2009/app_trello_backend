@@ -30,7 +30,7 @@ class GroupController extends Controller
         $userGroup->save();
 
         $data = [
-            'message' => 'them nhom thanh cong'
+            'message' => 'thêm nhóm thành công'
         ];
 
         return response()->json($data);
@@ -74,7 +74,7 @@ class GroupController extends Controller
         }
         $images = DB::table('images')->get();
         $data = [
-            'status' => 'thanh cong',
+            'status' => 'thành công',
             'groups' => $groups,
             'dataBoards' => $dataBoards,
             'images' => $images

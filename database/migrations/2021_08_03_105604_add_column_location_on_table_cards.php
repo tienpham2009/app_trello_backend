@@ -17,7 +17,6 @@ class AddColumnLocationOnTableCards extends Migration
             $table->unsignedInteger('location');
         });
     }
-
     /**
      * Reverse the migrations.
      *
