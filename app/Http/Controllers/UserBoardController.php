@@ -103,19 +103,6 @@ class UserBoardController extends Controller
             ->where([['user_board.user_id', '=', $userId], ['user_board.board_id', '=', $board_id]])
             ->get();
 
-        if (!$user){
-            $data = [
-                'role' => 1,
-                'user' => $user
-            ];
-        }else{
-            $data = [
-                'role' => 1,
-                'user' => $user
-            ];
-        }
-
-
-        return response()->json($data);
+        return response()->json($user);
     }
 }
