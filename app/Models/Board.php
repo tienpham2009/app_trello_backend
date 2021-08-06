@@ -9,6 +9,7 @@ class Board extends Model
 {
     protected $table = "boards";
     protected $fillable = [
+        'id',
         'title',
         'modifier',
         'group_id'

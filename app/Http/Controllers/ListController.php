@@ -55,8 +55,13 @@ class ListController extends Controller
             ->orderBy('location')
             ->where('board_id',$board_id)
             ->get();
+        $board = DB::table('boards')
+                 ->join('images' , 'images.id' , '=' , 'boards.image_id')
+                 ->where('boards.id' , $board_id)
+                 ->get();
         return response()->json([
             'lists' => $lists,
+            'board' => $board[0]
         ]);
     }
 

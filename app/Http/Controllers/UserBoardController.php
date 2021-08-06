@@ -7,9 +7,11 @@ use App\Models\Role;
 use Illuminate\Http\Request;
 
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Models\UserBoard;
 use Exception;
+use function PHPUnit\Framework\isEmpty;
 
 class UserBoardController extends Controller
 {
@@ -45,7 +47,7 @@ class UserBoardController extends Controller
      * Display the specified resource.
      *
      * @param int $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function getAll($id)
     {
@@ -54,6 +56,7 @@ class UserBoardController extends Controller
         return response()->json($user);
 
     }
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -86,5 +89,33 @@ class UserBoardController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function getRole(Request $request): \Illuminate\Http\JsonResponse
+    {
+        $board_id = $request->board_id;
+        $userId = Auth::id();
+
+        $user = DB::table('users')
+            ->select('user_board.user_id', 'user_board.board_id', 'user_board.role_id')
+            ->join('user_board', 'users.id', '=', 'user_board.user_id')
+            ->join('roles', 'roles.id', '=', 'user_board.role_id')
+            ->where([['user_board.user_id', '=', $userId], ['user_board.board_id', '=', $board_id]])
+            ->get();
+
+        if (!$user){
+            $data = [
+                'role' => 1,
+                'user' => $user
+            ];
+        }else{
+            $data = [
+                'role' => 1,
+                'user' => $user
+            ];
+        }
+
+
+        return response()->json($data);
     }
 }
