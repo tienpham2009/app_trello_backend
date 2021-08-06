@@ -3,12 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Models\Board;
-use App\Models\Group;
+use App\Models\Role;
 use Illuminate\Http\Request;
 
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use App\Models\UserBoard;
 use Exception;
+use function PHPUnit\Framework\isEmpty;
 
 class UserBoardController extends Controller
 {
@@ -44,11 +47,14 @@ class UserBoardController extends Controller
      * Display the specified resource.
      *
      * @param int $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function show($id)
+    public function getAll($id)
     {
-        //
+        $userId = UserBoard::where('board_id', $id)->get('user_id');
+        $user = User::find($userId);
+        return response()->json($user);
+
     }
 
     /**
@@ -83,5 +89,20 @@ class UserBoardController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function getRole(Request $request): \Illuminate\Http\JsonResponse
+    {
+        $board_id = $request->board_id;
+        $userId = Auth::id();
+
+        $user = DB::table('users')
+            ->select('user_board.user_id', 'user_board.board_id', 'user_board.role_id')
+            ->join('user_board', 'users.id', '=', 'user_board.user_id')
+            ->join('roles', 'roles.id', '=', 'user_board.role_id')
+            ->where([['user_board.user_id', '=', $userId], ['user_board.board_id', '=', $board_id]])
+            ->get();
+
+        return response()->json($user);
     }
 }

@@ -89,6 +89,7 @@ class CardController extends Controller
             ->join('cards', 'cards.id', '=', 'comments.card_id')
             ->where('comments.card_id', $card_id)
             ->get();
+
         $data = [
             'card' => $card,
             'labels' => $labels,
@@ -117,7 +118,7 @@ class CardController extends Controller
             'status' => 'Cập nhật thẻ thành công !'
         ]);
     }
-
+    
     public function addComment(Request $request): \Illuminate\Http\JsonResponse
     {
         $data = [

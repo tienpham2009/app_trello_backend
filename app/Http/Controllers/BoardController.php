@@ -9,11 +9,13 @@ use App\Models\UserBoard;
 use App\Models\UserGroup;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use function Symfony\Component\String\s;
 
 class BoardController extends Controller
 {
     protected $boards;
     const DEFAULT_IMAGE = 1 ;
+    const DEFAULT_ROLE = 1 ;
 
     function getBoardByUserID(Request $request): \Illuminate\Http\JsonResponse
     {
@@ -47,6 +49,7 @@ class BoardController extends Controller
         $user_board = new UserBoard();
         $user_board->user_id = $user_id;
         $user_board->board_id = $board_id;
+        $user_board->role_id = self::DEFAULT_ROLE;
         $user_board->save();
 
         $data = [
@@ -74,5 +77,13 @@ class BoardController extends Controller
                 return response()->json($data);
             }
         }
+    }
+
+    public function getBoard(Request $request): \Illuminate\Http\JsonResponse
+    {
+         $board_id = $request->board_id;
+         $board = Board::find($board_id);
+
+         return response()->json($board);
     }
 }

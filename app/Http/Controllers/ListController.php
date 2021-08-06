@@ -44,7 +44,7 @@ class ListController extends Controller
         $list->save();
 
         return response()->json([
-            'message' => 'List create successfully',
+            'message' => 'Tạo danh sách thành công',
             'list' => $list
         ], 201);
     }
@@ -55,8 +55,13 @@ class ListController extends Controller
             ->orderBy('location')
             ->where('board_id',$board_id)
             ->get();
+        $board = DB::table('boards')
+                 ->join('images' , 'images.id' , '=' , 'boards.image_id')
+                 ->where('boards.id' , $board_id)
+                 ->get();
         return response()->json([
             'lists' => $lists,
+            'board' => $board[0]
         ]);
     }
 

@@ -2,10 +2,10 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
 use App\Models\Role;
+use Illuminate\Database\Seeder;
 
-class RoleSeeder extends Seeder
+class RoleSeed extends Seeder
 {
     /**
      * Run the database seeds.
@@ -15,13 +15,11 @@ class RoleSeeder extends Seeder
     public function run()
     {
         $role = new Role();
-        $role->id = '1';
-        $role->name = 'Manager';
+        $role->name = "Manager";
         $role->save();
 
         $role = new Role();
-        $role->id = '2';
-        $role->name = 'Viewer';
+        $role->name = "Viewer";
         $role->save();
     }
 }
